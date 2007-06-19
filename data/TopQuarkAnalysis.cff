@@ -1,0 +1,10 @@
+#
+# TopQuarkAnalysis standard sequences
+#
+
+# include "TopQuarkAnalysis/XYZ/data/XYZ.cff"
+
+# sequence topQuarkAnalysis = {
+#   xyz
+# }
+

@@ -1,0 +1,12 @@
+#
+# TopQuarkAnalysis event content 
+#
+
+# include "TopQuarkAnalysis/XYZ/data/xyz_EventContent.cff"
+
+block TopQuarkAnalysisEventContent = {
+  untracked vstring outputCommands = {
+ }
+}
+
+# replace TopQuarkAnalysisEventContent.outputCommands += xyzEventContent.outputCommands
