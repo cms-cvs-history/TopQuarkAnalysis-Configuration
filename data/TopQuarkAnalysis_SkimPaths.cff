@@ -1,3 +1,2 @@
-#
-# TopQuarkAnalysis skim paths
-#
+
+include "TopQuarkAnalysis/TopSkimming/data/ttSemiLep_SkimPaths.cff"

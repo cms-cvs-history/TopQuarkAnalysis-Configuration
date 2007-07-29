@@ -1,3 +1,2 @@
-#
-# TopQuarkAnalysis standard sequences
-#
+
+include "TopQuarkAnalysis/TopSkimming/data/ttSemiLep_OutputModules.cff"
