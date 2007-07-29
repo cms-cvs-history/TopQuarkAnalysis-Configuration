@@ -1,2 +1,2 @@
 
-include "TopQuarkAnalysis/TopSkimming/data/ttSemiLep_SkimPaths.cff"
+include "TopQuarkAnalysis/TopSkimming/data/topSemiLep_SkimPaths.cff"

@@ -1,9 +1,9 @@
 
-include "TopQuarkAnalysis/TopSkimming/data/ttSemiLep_EventContent.cff"
+include "TopQuarkAnalysis/TopSkimming/data/topSemiLep_EventContent.cff"
 
 block TopQuarkAnalysisEventContent = {
   untracked vstring outputCommands = {
   }
 }
 
-replace TopQuarkAnalysisEventContent.outputCommands += ttSemiLepEventContent.outputCommands
+replace TopQuarkAnalysisEventContent.outputCommands += topSemiLepEventContent.outputCommands
