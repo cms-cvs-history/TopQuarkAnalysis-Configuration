@@ -1,4 +1,4 @@
-
+include "TopQuarkAnalysis/TopSkimming/data/topDiLeptonEventContent.cff"
 include "TopQuarkAnalysis/TopSkimming/data/topSemiLep_EventContent.cff"
 
 block TopQuarkAnalysisEventContent = {
@@ -6,4 +6,5 @@ block TopQuarkAnalysisEventContent = {
   }
 }
 
+replace TopQuarkAnalysisEventContent.outputCommands += topDiLeptonEventContent.outputCommands
 replace TopQuarkAnalysisEventContent.outputCommands += topSemiLepEventContent.outputCommands
