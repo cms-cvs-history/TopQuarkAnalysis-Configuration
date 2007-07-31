@@ -1,0 +1,5 @@
+#
+# TopQuarkAnalysis output modules
+#
+include "TopQuarkAnalysis/TopSkimming/data/topDiLeptonOutputModule.cff"
+include "TopQuarkAnalysis/TopSkimming/data/topSemiLep_OutputModules.cff"

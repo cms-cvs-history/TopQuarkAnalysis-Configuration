@@ -1,0 +1,5 @@
+#
+# TopQuarkAnalysis skim paths
+#
+include "TopQuarkAnalysis/TopSkimming/data/topDiLeptonPath.cff"
+include "TopQuarkAnalysis/TopSkimming/data/topSemiLep_SkimPaths.cff"
