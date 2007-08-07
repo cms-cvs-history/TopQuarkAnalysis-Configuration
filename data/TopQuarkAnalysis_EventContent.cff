@@ -1,5 +1,6 @@
 include "TopQuarkAnalysis/TopSkimming/data/topDiLeptonEventContent.cff"
 include "TopQuarkAnalysis/TopSkimming/data/topSemiLep_EventContent.cff"
+include "TopQuarkAnalysis/TopSkimming/data/topLeptonTauEventContent.cff"
 
 block TopQuarkAnalysisEventContent = {
   untracked vstring outputCommands = {

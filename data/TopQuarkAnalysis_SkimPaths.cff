@@ -3,3 +3,4 @@
 #
 include "TopQuarkAnalysis/TopSkimming/data/topDiLeptonPath.cff"
 include "TopQuarkAnalysis/TopSkimming/data/topSemiLep_SkimPaths.cff"
+include "TopQuarkAnalysis/TopSkimming/data/topLeptonTauPath.cff"
