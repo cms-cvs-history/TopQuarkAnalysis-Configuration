@@ -1,6 +1,8 @@
-include "TopQuarkAnalysis/TopSkimming/data/topDiLeptonEventContent.cff"
+
+include "TopQuarkAnalysis/TopSkimming/data/topDiLepton_EventContent.cff"
 include "TopQuarkAnalysis/TopSkimming/data/topSemiLep_EventContent.cff"
-include "TopQuarkAnalysis/TopSkimming/data/topLeptonTauEventContent.cff"
+include "TopQuarkAnalysis/TopSkimming/data/topFullyHadronic_EventContent.cff"
+include "TopQuarkAnalysis/TopSkimming/data/topLeptonTau_EventContent.cff"
 
 block TopQuarkAnalysisEventContent = {
   untracked vstring outputCommands = {
@@ -9,3 +11,5 @@ block TopQuarkAnalysisEventContent = {
 
 replace TopQuarkAnalysisEventContent.outputCommands += topDiLeptonEventContent.outputCommands
 replace TopQuarkAnalysisEventContent.outputCommands += topSemiLepEventContent.outputCommands
+replace TopQuarkAnalysisEventContent.outputCommands += topFullyHadronicEventContent.outputCommands
+replace TopQuarkAnalysisEventContent.outputCommands += topLeptonTauEventContent.outputCommands
