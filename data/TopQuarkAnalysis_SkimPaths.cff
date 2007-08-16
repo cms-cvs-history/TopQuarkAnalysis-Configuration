@@ -6,4 +6,4 @@
 include "TopQuarkAnalysis/TopSkimming/data/topDiLepton_SkimPaths.cff"
 include "TopQuarkAnalysis/TopSkimming/data/topSemiLep_SkimPaths.cff"
 include "TopQuarkAnalysis/TopSkimming/data/topFullyHadronic_SkimPaths.cff"
-include "TopQuarkAnalysis/TopSkimming/data/topLeptonTau_SkimPaths.cff"
+//include "TopQuarkAnalysis/TopSkimming/data/topLeptonTau_SkimPaths.cff"
