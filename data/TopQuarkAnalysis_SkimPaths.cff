@@ -1,9 +1,6 @@
 
-#
-# TopQuarkAnalysis skim paths
-#
-
-include "TopQuarkAnalysis/TopSkimming/data/topDiLepton_SkimPaths.cff"
-include "TopQuarkAnalysis/TopSkimming/data/topSemiLep_SkimPaths.cff"
+include "TopQuarkAnalysis/TopSkimming/data/topDiLepton2Electron_SkimPaths.cff"
+include "TopQuarkAnalysis/TopSkimming/data/topDiLeptonMuonX_SkimPaths.cff"
+include "TopQuarkAnalysis/TopSkimming/data/topSemiLepElectron_SkimPaths.cff"
+include "TopQuarkAnalysis/TopSkimming/data/topSemiLepMuon_SkimPaths.cff"
 include "TopQuarkAnalysis/TopSkimming/data/topFullyHadronic_SkimPaths.cff"
-//include "TopQuarkAnalysis/TopSkimming/data/topLeptonTau_SkimPaths.cff"
