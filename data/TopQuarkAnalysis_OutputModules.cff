@@ -1,6 +1,5 @@
-
-include "TopQuarkAnalysis/TopSkimming/data/topDiLepton2Electron_OutputModules.cff"
-include "TopQuarkAnalysis/TopSkimming/data/topDiLeptonMuonX_OutputModules.cff"
-include "TopQuarkAnalysis/TopSkimming/data/topSemiLepElectron_OutputModules.cff"
-include "TopQuarkAnalysis/TopSkimming/data/topSemiLepMuon_OutputModules.cff"
-include "TopQuarkAnalysis/TopSkimming/data/topFullyHadronic_OutputModules.cff"
+include "TopQuarkAnalysis/TopSkimming/data/topDiLepton2ElectronOutputModules.cff"
+include "TopQuarkAnalysis/TopSkimming/data/topDiLeptonMuonXOutputModules.cff"
+include "TopQuarkAnalysis/TopSkimming/data/topSemiLepElectronOutputModules.cff"
+include "TopQuarkAnalysis/TopSkimming/data/topSemiLepMuonOutputModules.cff"
+include "TopQuarkAnalysis/TopSkimming/data/topFullyHadronicOutputModules.cff"
