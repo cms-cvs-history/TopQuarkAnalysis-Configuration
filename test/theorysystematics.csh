@@ -342,7 +342,7 @@ cat > temp2 <<EOF
         }
         untracked PSet dataset ={
                 untracked string dataTier = "GEN"
-                untracked string filterName = "lambdaqcd_up"
+                untracked string filterName = "${label}_${dir}"
         }
    }
 
