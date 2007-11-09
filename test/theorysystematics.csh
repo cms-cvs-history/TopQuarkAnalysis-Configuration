@@ -97,12 +97,12 @@ switch ( ${syst} )
     case 1:
 	echo "you chose lambdaqcd"
 	set label = lambdaqcd
-	set extendedlabel = label
+	set extendedlabel = $label
 	breaksw
     case 2:
 	echo "you chose Q2max"
 	set label = q2max
-	set extendedlabel = label
+	set extendedlabel = $label
 	breaksw
     case 3:
 	echo "you chose light quark fragmentation"
@@ -255,8 +255,8 @@ echo "Creating file ${cfg}..."
 if (-f "${cfg}") rm ${cfg}
 if (-f temp1) rm temp1
 if (-f temp2) rm temp2
-set dummy1 = `echo '$Revision: 1.2 $'`
-set dummy2 = `echo '$Source: /cvs_server/repositories/CMSSW/CMSSW/TopQuarkAnalysis/Configuration/test/theorysystematics.csh,v $'`
+set dummy1 = `echo '$Revision$'` #this will be modified by cvs, just put Revision between the dollars
+set dummy2 = `echo '$Source$'` #this will be modified by cvs, just put Source between the dollars
 cat > temp1 <<EOF
 process Gen = {
 
