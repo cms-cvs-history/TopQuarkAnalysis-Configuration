@@ -75,6 +75,7 @@ if (!(-f ${sample}_alpgen.cfg)) wget http://cmsdoc.cern.ch/~mpierini/cms/alpgenC
 ### executing cmsGen:
 
 eval `scramv1 ru -csh`
+chmod +x cmsGen.py
 ./cmsGen.py --generator=alpgen --number-of-events=${alpgenevents} --cfg=${sample}_alpgen.cfg
 
 ### menu:
@@ -254,8 +255,8 @@ echo "Creating file ${cfg}..."
 if (-f "${cfg}") rm ${cfg}
 if (-f temp1) rm temp1
 if (-f temp2) rm temp2
-set dummy1 = `echo '$Revision$'`
-set dummy2 = `echo '$Source$'`
+set dummy1 = `echo '$Revision: 1.2 $'`
+set dummy2 = `echo '$Source: /cvs_server/repositories/CMSSW/CMSSW/TopQuarkAnalysis/Configuration/test/theorysystematics.csh,v $'`
 cat > temp1 <<EOF
 process Gen = {
 
@@ -268,8 +269,8 @@ process Gen = {
    }
 
    include "FWCore/MessageService/data/MessageLogger.cfi"
-#   replace MessageLogger.cout.threshold = "ERROR"
-#   replace MessageLogger.cerr.default.limit = 10
+   replace MessageLogger.cout.threshold = "ERROR"
+   replace MessageLogger.cerr.default.limit = 10
     
    service = RandomNumberGeneratorService
    { 
@@ -338,6 +339,10 @@ cat > temp2 <<EOF
 	untracked string fileName = "${output}"
         untracked PSet SelectEvents = {
            vstring SelectEvents = {"p1"}
+        }
+        untracked PSet dataset ={
+                untracked string dataTier = "GEN"
+                untracked string filterName = "lambdaqcd_up"
         }
    }
 
