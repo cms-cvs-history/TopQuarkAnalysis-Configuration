@@ -96,22 +96,27 @@ switch ( ${syst} )
     case 1:
 	echo "you chose lambdaqcd"
 	set label = lambdaqcd
+	set extendedlabel = label
 	breaksw
     case 2:
 	echo "you chose Q2max"
 	set label = q2max
+	set extendedlabel = label
 	breaksw
     case 3:
 	echo "you chose light quark fragmentation"
 	set label = fragl
+	set extendedlabel = `echo "light quark fragmentation"`
 	breaksw
     case 4:
 	echo "you chose heavy quark fragmentation"
 	set label = fragh
+	set extendedlabel = `echo "heavy quark fragmentation"`
 	breaksw
     case 5:
 	echo "you chose underlying event"
 	set label = ue
+	set extendedlabel = `echo "underlying event"`
 	breaksw
     default:
 	echo "Sorry, unrecognized option."
@@ -249,20 +254,22 @@ echo "Creating file ${cfg}..."
 if (-f "${cfg}") rm ${cfg}
 if (-f temp1) rm temp1
 if (-f temp2) rm temp2
+set dummy1 = `echo '$Revision$'`
+set dummy2 = `echo '$Source$'`
 cat > temp1 <<EOF
 process Gen = {
 
    untracked PSet maxEvents = {untracked int32 input = -1}
 
    untracked PSet configurationMetadata = {
-           untracked string version = "$$"
-           untracked string name = "$$"
-           untracked string annotation = "tt+jets exclusive sample with ptjet gt 70 GeV and Rmatch eq 0.7"
+           untracked string version = "$dummy1"
+           untracked string name = "$dummy2"
+           untracked string annotation = "tt+jets exclusive sample with ptjet gt 70 GeV and Rmatch eq 0.7, ${extendedlabel} variated ${dir}ward"
    }
 
    include "FWCore/MessageService/data/MessageLogger.cfi"
-   replace MessageLogger.cout.threshold = "ERROR"
-   replace MessageLogger.cerr.default.limit = 10
+#   replace MessageLogger.cout.threshold = "ERROR"
+#   replace MessageLogger.cerr.default.limit = 10
     
    service = RandomNumberGeneratorService
    { 
