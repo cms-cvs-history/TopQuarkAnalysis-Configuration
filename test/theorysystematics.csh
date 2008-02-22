@@ -93,6 +93,9 @@ set syst=$<
 switch ( ${syst} )
     case 0:
 	echo "you chose the default settings"
+	set extendedlabel = `echo "default settings"`
+	set label = std
+	set dir = std
 	goto filename
     case 1:
 	echo "you chose lambdaqcd"
@@ -255,8 +258,8 @@ echo "Creating file ${cfg}..."
 if (-f "${cfg}") rm ${cfg}
 if (-f temp1) rm temp1
 if (-f temp2) rm temp2
-set dummy1 = `echo '$Revision$'` #this will be modified by cvs, just put Revision between the dollars
-set dummy2 = `echo '$Source$'` #this will be modified by cvs, just put Source between the dollars
+set dummy1 = `echo '$Revision: 1.5 $'` #this will be modified by cvs, just put Revision between the dollars
+set dummy2 = `echo '$Source: /cvs_server/repositories/CMSSW/CMSSW/TopQuarkAnalysis/Configuration/test/theorysystematics.csh,v $'` #this will be modified by cvs, just put Source between the dollars
 cat > temp1 <<EOF
 process Gen = {
 
