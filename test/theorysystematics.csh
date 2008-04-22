@@ -75,7 +75,6 @@ if (!(-f ${sample}_alpgen.cfg)) wget http://cmsdoc.cern.ch/~mpierini/cms/alpgenC
 ### executing cmsGen:
 
 eval `scramv1 ru -csh`
-chmod +x cmsGen.py
 ./cmsGen.py --generator=alpgen --number-of-events=${alpgenevents} --cfg=${sample}_alpgen.cfg
 
 ### menu:
@@ -93,34 +92,26 @@ set syst=$<
 switch ( ${syst} )
     case 0:
 	echo "you chose the default settings"
-	set extendedlabel = `echo "default settings"`
-	set label = std
-	set dir = std
 	goto filename
     case 1:
 	echo "you chose lambdaqcd"
 	set label = lambdaqcd
-	set extendedlabel = $label
 	breaksw
     case 2:
 	echo "you chose Q2max"
 	set label = q2max
-	set extendedlabel = $label
 	breaksw
     case 3:
 	echo "you chose light quark fragmentation"
 	set label = fragl
-	set extendedlabel = `echo "light quark fragmentation"`
 	breaksw
     case 4:
 	echo "you chose heavy quark fragmentation"
 	set label = fragh
-	set extendedlabel = `echo "heavy quark fragmentation"`
 	breaksw
     case 5:
 	echo "you chose underlying event"
 	set label = ue
-	set extendedlabel = `echo "underlying event"`
 	breaksw
     default:
 	echo "Sorry, unrecognized option."
@@ -258,17 +249,15 @@ echo "Creating file ${cfg}..."
 if (-f "${cfg}") rm ${cfg}
 if (-f temp1) rm temp1
 if (-f temp2) rm temp2
-set dummy1 = `echo '$Revision: 1.5 $'` #this will be modified by cvs, just put Revision between the dollars
-set dummy2 = `echo '$Source: /cvs_server/repositories/CMSSW/CMSSW/TopQuarkAnalysis/Configuration/test/theorysystematics.csh,v $'` #this will be modified by cvs, just put Source between the dollars
 cat > temp1 <<EOF
 process Gen = {
 
    untracked PSet maxEvents = {untracked int32 input = -1}
 
    untracked PSet configurationMetadata = {
-           untracked string version = "$dummy1"
-           untracked string name = "$dummy2"
-           untracked string annotation = "tt+jets exclusive sample with ptjet gt 70 GeV and Rmatch eq 0.7, ${extendedlabel} variated ${dir}ward"
+           untracked string version = "$$"
+           untracked string name = "$$"
+           untracked string annotation = "tt+jets exclusive sample with ptjet gt 70 GeV and Rmatch eq 0.7"
    }
 
    include "FWCore/MessageService/data/MessageLogger.cfi"
@@ -342,10 +331,6 @@ cat > temp2 <<EOF
 	untracked string fileName = "${output}"
         untracked PSet SelectEvents = {
            vstring SelectEvents = {"p1"}
-        }
-        untracked PSet dataset ={
-                untracked string dataTier = "GEN"
-                untracked string filterName = "${label}_${dir}"
         }
    }
 
