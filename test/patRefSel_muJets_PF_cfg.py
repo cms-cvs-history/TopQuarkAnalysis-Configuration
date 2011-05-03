@@ -13,6 +13,8 @@ runOnMC = True
 
 ### Particle flow
 
+usePFnoPU = True
+
 postfix = 'PF'
 jetAlgo = 'AK5'
 
@@ -36,13 +38,13 @@ addTriggerMatching = True
 from TopQuarkAnalysis.Configuration.patRefSel_refMuJets import *
 #muonsUsePV             = False
 #muonEmbedTrack         = True
-#muonCut                = ''
-#looseMuonCut           = ''
-#tightMuonCut           = ''
+#muonCutPF                = ''
+#looseMuonCutPF           = ''
+#tightMuonCutPF           = ''
 #muonJetsDR             = 0.3
 #jetCutPF               = ''
 #jetMuonsDRPF           = 0.1
-#electronCut            = ''
+#electronCutPF            = ''
 #triggerSelection       = 'HLT_Mu15 OR HLT_Mu15_v*' # 'HLT_Mu9' for run numbers < 147196
 #triggerObjectSelection = 'type("TriggerMuon") && ( path("HLT_Mu15") || path("HLT_Mu15_v*") )'
 
@@ -54,24 +56,28 @@ if runOnMC:
   condition = 'startup'
 # maximum number of events
 maxInputEvents = -1 # reduce for testing
+maxInputEvents = 1000
 # input files
 from PhysicsTools.PatAlgos.tools.cmsswVersionTools import pickRelValInputFiles
 inputFiles = pickRelValInputFiles( cmsswVersion  = 'CMSSW_4_2_2'
                                  , relVal        = 'Mu'
                                  , dataTier      = 'RECO'
                                  , globalTag     = 'GR_R_42_V10_RelVal_mu2010B'
-                                 , numberOfFiles = 0
+                                 , numberOfFiles = 0 # "0" means "all"
                                  )
 if runOnMC:
   inputFiles = pickRelValInputFiles( cmsswVersion  = 'CMSSW_4_2_2'
                                    , relVal        = 'RelValTTbar'
-                                   , condition     = condition
-                                   , numberOfFiles = 0
+                                   #, condition     = condition
+                                   , dataTier      = 'GEN-SIM-DIGI-RECO'
+                                   , globalTag     = 'START42_V11_FastSim_PU_156BxLumiPileUp'
+                                   , numberOfFiles = 0 # "0" means "all"
                                    )
 # output file
 outputFile = 'patRefSel_muJets_PF_data.root'
 if runOnMC:
-  outputFile = 'patRefSel_muJets_PF_mc.root'
+  #outputFile = 'patRefSel_muJets_PF_mc.root'
+  outputFile = 'patRefSel_muJets_PF_mcPU.root'
 # event frequency of Fwk report
 fwkReportEvery = 100
 # switch for 'TrigReport'/'TimeReport' at job end
@@ -144,6 +150,14 @@ usePF2PAT( process
          , jetAlgo   = jetAlgo
          , postfix   = postfix
          )
+getattr( process, 'pfNoPileUp' + postfix ).enable = usePFnoPU
+if usePFnoPU:
+  getattr( process, 'pfJets' + postfix ).Vertices      = cms.InputTag( 'goodOfflinePrimaryVertices' )
+  getattr( process, 'pfJets' + postfix ).doAreaFastjet = True
+  getattr( process, 'pfJets' + postfix ).doRhoFastjet  = False
+  getattr( process, 'pfPileUp' + postfix ).checkClosestZVertex = cms.bool(False)
+
+
 # remove MC matching, object cleaning, photons and taus and adapt JECs
 from PhysicsTools.PatAlgos.tools.coreTools import *
 if not runOnMC:
@@ -179,15 +193,15 @@ from TopQuarkAnalysis.Configuration.patRefSel_refMuJets_cfi import *
 applyPostfix( process, 'patMuons', postfix ).usePV      = muonsUsePV
 applyPostfix( process, 'patMuons', postfix ).embedTrack = muonEmbedTrack
 
-applyPostfix( process, 'selectedPatMuons', postfix ).cut = muonCut
+applyPostfix( process, 'selectedPatMuons', postfix ).cut = muonCutPF
 
 intermediatePatMuons.src          = cms.InputTag( 'selectedPatMuons' + postfix )
-intermediatePatMuons.preselection = looseMuonCut
+intermediatePatMuons.preselection = looseMuonCutPF
 setattr( process, 'intermediatePatMuons' + postfix, intermediatePatMuons )
 process.out.outputCommands.append( 'keep *_intermediatePatMuons' + postfix + '_*_*' )
 
 loosePatMuons.src                       = cms.InputTag( 'intermediatePatMuons' + postfix )
-loosePatMuons.preselection              = looseMuonCut
+loosePatMuons.preselection              = looseMuonCutPF
 loosePatMuons.checkOverlaps.jets.src    = cms.InputTag( 'goodPatJets' + postfix )
 loosePatMuons.checkOverlaps.jets.deltaR = muonJetsDR
 setattr( process, 'loosePatMuons' + postfix, loosePatMuons )
@@ -196,7 +210,7 @@ process.out.outputCommands.append( 'keep *_loosePatMuons' + postfix + '_*_*' )
 process.step3b = step3b.clone( src = cms.InputTag( 'loosePatMuons' + postfix ) )
 
 tightPatMuons.src          = cms.InputTag( 'loosePatMuons' + postfix )
-tightPatMuons.preselection = tightMuonCut
+tightPatMuons.preselection = tightMuonCutPF
 setattr( process, 'tightPatMuons' + postfix, tightPatMuons )
 process.out.outputCommands.append( 'keep *_tightPatMuons' + postfix + '_*_*' )
 
@@ -213,6 +227,11 @@ goodPatJets.checkOverlaps.muons.deltaR = jetMuonsDRPF
 setattr( process, 'goodPatJets' + postfix, goodPatJets )
 process.out.outputCommands.append( 'keep *_goodPatJets' + postfix + '_*_*' )
 
+if usePFnoPU:
+  kt6PFJets.src = cms.InputTag( 'pfNoElectron' + postfix )
+  setattr( process, 'kt6PFJets' + postfix, kt6PFJets )
+  process.out.outputCommands.append( 'keep double_*' + postfix + '*_*_' + process.name_() )
+
 process.step6a = step6a.clone( src = cms.InputTag( 'goodPatJets' + postfix ) )
 process.step6b = step6b.clone( src = cms.InputTag( 'goodPatJets' + postfix ) )
 process.step6c = step6c.clone( src = cms.InputTag( 'goodPatJets' + postfix ) )
@@ -220,7 +239,7 @@ process.step7  = step7.clone( src = cms.InputTag( 'goodPatJets' + postfix ) )
 
 ### Electrons
 
-applyPostfix( process, 'selectedPatElectrons', postfix ).cut = electronCut
+applyPostfix( process, 'selectedPatElectrons', postfix ).cut = electronCutPF
 
 process.step5 = step5.clone( src = cms.InputTag( 'selectedPatElectrons' + postfix ) )
 
@@ -247,6 +266,8 @@ if useTrigger:
 if useGoodVertex:
   process.p += process.step2
 process.p += getattr( process, 'patPF2PATSequence' + postfix )
+if usePFnoPU:
+  process.p += getattr( process, 'kt6PFJets' + postfix )
 process.p += getattr( process, 'patAddOnSequence' + postfix )
 if useLooseMuon:
   process.p += process.step3b
