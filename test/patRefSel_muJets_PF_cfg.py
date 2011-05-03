@@ -56,7 +56,6 @@ if runOnMC:
   condition = 'startup'
 # maximum number of events
 maxInputEvents = -1 # reduce for testing
-maxInputEvents = 1000
 # input files
 from PhysicsTools.PatAlgos.tools.cmsswVersionTools import pickRelValInputFiles
 inputFiles = pickRelValInputFiles( cmsswVersion  = 'CMSSW_4_2_2'
@@ -68,9 +67,7 @@ inputFiles = pickRelValInputFiles( cmsswVersion  = 'CMSSW_4_2_2'
 if runOnMC:
   inputFiles = pickRelValInputFiles( cmsswVersion  = 'CMSSW_4_2_2'
                                    , relVal        = 'RelValTTbar'
-                                   #, condition     = condition
-                                   , dataTier      = 'GEN-SIM-DIGI-RECO'
-                                   , globalTag     = 'START42_V11_FastSim_PU_156BxLumiPileUp'
+                                   , condition     = condition
                                    , numberOfFiles = 0 # "0" means "all"
                                    )
 # output file
