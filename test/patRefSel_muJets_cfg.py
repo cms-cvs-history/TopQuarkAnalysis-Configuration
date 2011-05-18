@@ -1,3 +1,9 @@
+#
+# This file contains the Top PAG reference selection work-flow for mu + jets analysis.
+# as defined in
+# https://twiki.cern.ch/twiki/bin/viewauth/CMS/TopLeptonPlusJetsRefSel_mu#Selection_Version_SelV4_valid_fr
+#
+
 import sys
 
 import FWCore.ParameterSet.Config as cms
@@ -60,9 +66,9 @@ from TopQuarkAnalysis.Configuration.patRefSel_refMuJets import *
 
 # Trigger selection according to run range:
 # lower range limits available as suffix;
-# available are: 000000, 147196 (default)
-#triggerSelection       = triggerSelection_147196
-#triggerObjectSelection = triggerObjectSelection_147196
+# available are: 000000, 147196, 160404, 163270 (default), Spring11 (default, if 'runOnMC' = True)
+#triggerSelection       = triggerSelection_Spring11
+#triggerObjectSelection = triggerObjectSelection_Spring11
 
 ### Particle flow
 ### takes effect only, if 'runPF2PAT' = True
@@ -96,11 +102,47 @@ useL7Parton     = True
 
 # list of input files
 useRelVals = True # if 'False', "inputFiles" is used
-inputFiles = [ '/store/relval/CMSSW_4_2_3/RelValTTbar/GEN-SIM-DIGI-RECO/START42_V12_FastSim_PU_156BxLumiPileUp-v1/0072/0635AA67-B37C-E011-B61F-002618943944.root'
-             , '/store/relval/CMSSW_4_2_3/RelValTTbar/GEN-SIM-DIGI-RECO/START42_V12_FastSim_PU_156BxLumiPileUp-v1/0072/0E153885-B17C-E011-8C7D-001A928116E0.root'
-             , '/store/relval/CMSSW_4_2_3/RelValTTbar/GEN-SIM-DIGI-RECO/START42_V12_FastSim_PU_156BxLumiPileUp-v1/0072/105E01FE-B57C-E011-9AB4-0018F3D09708.root'
-             , '/store/relval/CMSSW_4_2_3/RelValTTbar/GEN-SIM-DIGI-RECO/START42_V12_FastSim_PU_156BxLumiPileUp-v1/0072/120718C8-B67C-E011-A070-001A928116D2.root'
-             , '/store/relval/CMSSW_4_2_3/RelValTTbar/GEN-SIM-DIGI-RECO/START42_V12_FastSim_PU_156BxLumiPileUp-v1/0072/1232DFFA-AF7C-E011-983D-002618943831.root'
+inputFiles = [ '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/FE6FA0FF-B676-E011-9456-001617E30D0A.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/F609315B-9376-E011-A06F-003048F01E88.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/F2A39943-B676-E011-B28A-000423D9A2AE.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/F03CB9FD-BD76-E011-9078-001617E30D00.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/EC843243-B676-E011-89FF-000423D98950.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/EA829D30-A876-E011-A47D-000423D9997E.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/E86A9D42-C976-E011-909B-0030487CD840.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/DE8B3E69-8676-E011-826B-003048F024DC.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/DA272D6F-8676-E011-A525-003048F1110E.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/D8937201-9076-E011-A6B9-001D09F24498.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/D461BE46-D076-E011-AF9C-0030487CD704.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/C0F87B60-CB76-E011-AE2E-0030487CD840.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/BE0175F3-C976-E011-AE92-003048F1110E.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/BA9FE134-8276-E011-80FE-001D09F241B9.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/B63D9E75-B376-E011-B6C3-000423D9A212.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/ACBCC6DB-B476-E011-97CA-003048F1C836.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/AA1D0A95-7C76-E011-A9D8-003048F024DE.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/A89B4AAE-7E76-E011-B4A1-003048F11C28.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/A08EDA34-8276-E011-8F43-001D09F291D2.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/9E28883B-C276-E011-BDA3-003048F024C2.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/987F96DB-C776-E011-95B8-003048F117EA.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/924A094B-9976-E011-AF39-003048D37560.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/907A87CB-8576-E011-BB72-0030487CD704.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/88C68ACD-4077-E011-B206-0030487CD14E.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/887DE118-C076-E011-A099-001617C3B5F4.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/7EE5B273-E076-E011-9249-0030487C2B86.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/7A6856A0-C376-E011-B99C-003048CFB40C.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/5E734B5A-8F76-E011-A9AF-003048F117B4.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/5032D5B2-9276-E011-92E6-001D09F295FB.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/3AC49569-8676-E011-8A6D-003048F1C424.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/3A50C497-9D76-E011-B64F-000423D996C8.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/36E69F60-9976-E011-8171-003048D2BC42.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/34AA8C4E-BB76-E011-A3BF-001D09F2AF96.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/2EF394CD-8C76-E011-AE4B-003048D2BB90.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/2EC4A6A3-B076-E011-8B6F-000423D9A212.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/2E571281-8E76-E011-89EE-001D09F241B9.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/2C259724-C776-E011-8329-003048F1110E.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/2C012DD4-8776-E011-949C-003048F118AC.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/1E24DE82-AE76-E011-AAA4-003048F11CF0.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/148E2B4A-9976-E011-A201-001D09F24E39.root'
+             , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/0278B64E-AA76-E011-8F0E-003048F024FA.root'
              ]   # overwritten, if "useRelVals" is 'True'
 
 # maximum number of events
@@ -109,8 +151,8 @@ maxInputEvents = -1 # reduce for testing
 ### Conditions
 
 # GlobalTags (w/o suffix '::All')
-globalTagData = 'GR_R_42_V12' # default for CMSSW_4_2_3 RelVals: 'GR_R_42_V12'
-globalTagMC   = 'START42_V12' # default for CMSSW_4_2_3 RelVals: 'START42_V12'
+globalTagData = 'GR_R_41_V0' # default for CMSSW_4_1_6 RelVals: 'GR_R_41_V0'
+globalTagMC   = 'START41_V0' # default for CMSSW_4_1_6 RelVals: 'START41_V0'
 
 ### Output
 
@@ -150,18 +192,17 @@ process.load( "TopQuarkAnalysis.Configuration.patRefSel_inputModule_cfi" )
 if useRelVals:
   from PhysicsTools.PatAlgos.tools.cmsswVersionTools import pickRelValInputFiles
   if runOnMC:
-    inputFiles = pickRelValInputFiles( cmsswVersion  = 'CMSSW_4_2_3'
+    inputFiles = pickRelValInputFiles( cmsswVersion  = 'CMSSW_4_1_6'
                                      , relVal        = 'RelValTTbar'
-                                     , globalTag     = globalTagMC
-                                     , numberOfFiles = -1 # "-1" means "all"
+                                     , globalTag     = 'START311_V2'
+                                     , numberOfFiles = 0 # "0" means "all"
                                      )
   else:
-    inputFiles = pickRelValInputFiles( cmsswVersion  = 'CMSSW_4_2_3'
+    inputFiles = pickRelValInputFiles( cmsswVersion  = 'CMSSW_4_1_6'
                                      , relVal        = 'Mu'
                                      , dataTier      = 'RECO'
-                                     #, globalTag     = globalTagData + '_RelVal_mu2010B'
-                                     , globalTag     = globalTagData + '_mu2010B' # wrong naming scheme in CMSSW_4_2_3
-                                     , numberOfFiles = -1 # "-1" means "all"
+                                     , globalTag     = 'GR_R_311_V2_RelVal_mu2010B'
+                                     , numberOfFiles = 0 # "0" means "all"
                                      )
 process.source.fileNames = inputFiles
 process.maxEvents.input  = maxInputEvents
@@ -189,6 +230,8 @@ process.out.SelectEvents.SelectEvents = []
 process.load( 'TopQuarkAnalysis.Configuration.patRefSel_eventCleaning_cff' )
 
 ### Trigger selection
+if runOnMC:
+  triggerSelection = triggerSelection_Spring11
 from TopQuarkAnalysis.Configuration.patRefSel_triggerSelection_cff import triggerResults
 process.step1 = triggerResults.clone(
   triggerConditions = [ triggerSelection ]
@@ -243,24 +286,22 @@ if useL7Parton:
 if runPF2PAT:
   from PhysicsTools.PatAlgos.tools.pfTools import usePF2PAT
   usePF2PAT( process
-           , runPF2PAT      = runPF2PAT
-           , runOnMC        = runOnMC
-           , jetAlgo        = jetAlgo
-           , postfix        = postfix
-           , jetCorrections = ( jecSetPF
-                              , jecLevels
-                              )
+           , runPF2PAT = runPF2PAT
+           , runOnMC   = runOnMC
+           , jetAlgo   = jetAlgo
+           , postfix   = postfix
            )
   applyPostfix( process, 'pfNoPileUp'  , postfix ).enable = usePFnoPU
   applyPostfix( process, 'pfNoMuon'    , postfix ).enable = useNoMuon
   applyPostfix( process, 'pfNoElectron', postfix ).enable = useNoElectron
   applyPostfix( process, 'pfNoJet'     , postfix ).enable = useNoJet
   applyPostfix( process, 'pfNoTau'     , postfix ).enable = useNoTau
+  applyPostfix( process, 'patJetCorrFactors', postfix ).payload = jecSetPF
+  applyPostfix( process, 'patJetCorrFactors', postfix ).levels  = jecLevels
   if useL1FastJet:
     applyPostfix( process, 'pfJets', postfix ).Vertices      = cms.InputTag( 'goodOfflinePrimaryVertices' )
     applyPostfix( process, 'pfJets', postfix ).doAreaFastjet = True
     applyPostfix( process, 'pfJets', postfix ).doRhoFastjet  = False
-    applyPostfix( process, 'pfPileUp', postfix ).checkClosestZVertex = False
 
 # remove MC matching, object cleaning, photons and taus
 if useStandardPAT:
@@ -535,6 +576,8 @@ if runPF2PAT:
 
 if addTriggerMatching:
 
+  if runOnMC:
+    triggerObjectSelection = triggerObjectSelection_Spring11
   ### Trigger matching configuration
   from PhysicsTools.PatAlgos.triggerLayer1.triggerProducer_cfi import patTrigger
   from TopQuarkAnalysis.Configuration.patRefSel_triggerMatching_cfi import patMuonTriggerMatch
