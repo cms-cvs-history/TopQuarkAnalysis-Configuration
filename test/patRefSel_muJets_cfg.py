@@ -20,7 +20,8 @@ process = cms.Process( 'PAT' )
 
 
 ### Data or MC?
-runOnMC = True
+runOnMC       = True
+runOnSpring11 = False # takes effect only on MC, overwritten, if "useRelVals" is 'True'
 
 ### Standard and PF reconstruction
 useStandardPAT = True
@@ -102,7 +103,7 @@ useL7Parton     = True
 ### Input
 
 # list of input files
-useRelVals = True # if 'False', "inputFiles" is used
+useRelVals = True # if 'False', "inputFiles" is used; if 'True' "runOnSpring11" is set to 'False'
 inputFiles = [ '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/FE6FA0FF-B676-E011-9456-001617E30D0A.root'
              , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/F609315B-9376-E011-A06F-003048F01E88.root'
              , '/store/data/Run2011A/MuHad/AOD/PromptReco-v2/000/163/817/F2A39943-B676-E011-B28A-000423D9A2AE.root'
@@ -193,11 +194,12 @@ process.load( "TopQuarkAnalysis.Configuration.patRefSel_inputModule_cfi" )
 if useRelVals:
   from PhysicsTools.PatAlgos.tools.cmsswVersionTools import pickRelValInputFiles
   if runOnMC:
-    inputFiles = pickRelValInputFiles( cmsswVersion  = 'CMSSW_4_1_6'
-                                     , relVal        = 'RelValTTbar'
-                                     , globalTag     = 'START311_V2'
-                                     , numberOfFiles = 0 # "0" means "all"
-                                     )
+    runOnSpring11 = False
+    inputFiles    = pickRelValInputFiles( cmsswVersion  = 'CMSSW_4_1_6'
+                                        , relVal        = 'RelValTTbar'
+                                        , globalTag     = 'START311_V2'
+                                        , numberOfFiles = 0 # "0" means "all"
+                                        )
   else:
     inputFiles = pickRelValInputFiles( cmsswVersion  = 'CMSSW_4_1_6'
                                      , relVal        = 'Mu'
@@ -231,13 +233,16 @@ process.out.SelectEvents.SelectEvents = []
 process.load( 'TopQuarkAnalysis.Configuration.patRefSel_eventCleaning_cff' )
 
 ### Trigger selection
+from TopQuarkAnalysis.Configuration.patRefSel_triggerSelection_cff import triggerResults, hltTag, hltTagSpring11
 if runOnMC:
   triggerSelection = triggerSelectionMC
+  if runOnSpring11:
+    hltTag = hltTagSpring11
 else:
   triggerSelection = triggerSelectionData
-from TopQuarkAnalysis.Configuration.patRefSel_triggerSelection_cff import triggerResults
 process.step1 = triggerResults.clone(
-  triggerConditions = [ triggerSelection ]
+  hltResults        = hltTag
+, triggerConditions = [ triggerSelection ]
 )
 
 ### Good vertex selection
@@ -592,6 +597,7 @@ if addTriggerMatching:
     process.triggerMatch = patMuonTriggerMatch.clone( matchedCuts = triggerObjectSelection )
     switchOnTriggerMatchEmbedding( process
                                  , triggerMatchers = [ 'triggerMatch' ]
+                                 , hltProcess      = '*'
                                  )
     removeCleaningFromTriggerMatching( process )
     process.intermediatePatMuons.src = cms.InputTag( 'selectedPatMuonsTriggerMatch' )
@@ -605,6 +611,7 @@ if addTriggerMatching:
                                  , triggerMatchers = [ 'triggerMatch' + postfix ]
                                  , sequence        = 'patPF2PATSequence' + postfix
                                  , postfix         = postfix
+                                 , hltProcess      = '*'
                                  )
     removeCleaningFromTriggerMatching( process
                                      , sequence = 'patPF2PATSequence' + postfix
