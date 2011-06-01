@@ -117,7 +117,7 @@ inputFiles = [ '/store/data/Run2011A/MuHad/AOD/PromptReco-v4/000/165/129/42DDEE9
              ] # overwritten, if "useRelVals" is 'True'
 
 # maximum number of events
-maxInputEvents = -1 # reduce for testing
+maxInputEvents = 100 # reduce for testing
 
 ### Conditions
 
@@ -231,7 +231,7 @@ from PhysicsTools.PatAlgos.tools.coreTools import *
 ### Check JECs
 
 # JEC set
-jecSet   = jecSetBase + 'Calo'
+jecSet   = jecSetBase + 'PF'
 jecSetPF = jecSetBase + 'PF'
 if usePFnoPU:
   jecSetPF += 'chs'
@@ -299,8 +299,16 @@ if runPF2PAT:
 
 # JetCorrFactorsProducer configuration has to be fixed _after_ any call to 'removeCleaning()':
 if useStandardPAT:
-  process.patJetCorrFactors.payload = jecSet
-  process.patJetCorrFactors.levels  = jecLevels
+  from PhysicsTools.PatAlgos.tools.jetTools import *
+  switchJetCollection(process,cms.InputTag('ak5PFJets'),
+                      doJTA        = True,
+                      doBTagging   = True,
+                      jetCorrLabel = (jecSet, jecLevels),
+                      doType1MET   = False,
+                      genJetCollection=cms.InputTag("ak5GenJets"),
+                      doJetID      = True
+                      )
+
 # additional event content has to be (re-)added _after_ the call to 'removeCleaning()':
 process.out.outputCommands += [ 'keep edmTriggerResults_*_*_*'
                               , 'keep *_hltTriggerSummaryAOD_*_*'
@@ -433,8 +441,9 @@ if useStandardPAT:
 
   ### Jets
 
-  process.goodPatJets.preselection = jetCut
-
+  process.goodPatJets.preselection = jetCutPF
+  process.goodPatJets.checkOverlaps.muons.deltaR = jetMuonsDRPF
+  
   ### Electrons
 
   process.selectedPatElectrons.cut = electronCut
