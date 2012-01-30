@@ -89,7 +89,8 @@ postfix = 'PF' # needs to be a non-empty string and must not be 'AK5PF', if 'use
 
 # subtract charged hadronic pile-up particles (from wrong PVs)
 # effects also JECs
-usePFnoPU = True # before any top projection
+usePFnoPU       = True # before any top projection
+usePfIsoLessCHS = False # switch to new PF isolation with L1Fastjet CHS
 
 # other switches for PF top projections (default: all 'True')
 useNoMuon     = True # before electron top projection
@@ -128,7 +129,7 @@ useL7Parton     = True
 ### Input
 
 # list of input files
-useRelVals = False # if 'False', "inputFiles" is used
+useRelVals = True # if 'False', "inputFiles" is used
 inputFiles = [ '/store/data/Run2011B/MultiJet/AOD/PromptReco-v1/000/178/866/122CC36B-32FB-E011-9C29-001D09F295FB.root'
              , '/store/data/Run2011B/MultiJet/AOD/PromptReco-v1/000/178/866/16F98CC4-BCFA-E011-AF7C-BCAEC532971A.root'
              , '/store/data/Run2011B/MultiJet/AOD/PromptReco-v1/000/178/866/1A167592-53FB-E011-B28B-E0CB4E4408E7.root'
@@ -316,9 +317,10 @@ if runPF2PAT:
   applyPostfix( process, 'pfNoTau'     , postfix ).enable = useNoTau
   applyPostfix( process, 'pfPileUp', postfix ).Vertices = cms.InputTag( pfVertices )
   if useL1FastJet:
+    applyPostfix( process, 'pfPileUp'   , postfix ).checkClosestZVertex = False
+    applyPostfix( process, 'pfPileUpIso', postfix ).checkClosestZVertex = usePfIsoLessCHS
     applyPostfix( process, 'pfJets', postfix ).doAreaFastjet = True
     applyPostfix( process, 'pfJets', postfix ).doRhoFastjet  = False
-    applyPostfix( process, 'pfPileUp', postfix ).checkClosestZVertex = False
   applyPostfix( process, 'pfMuonsFromVertex'    , postfix ).vertices = cms.InputTag( pfVertices )
   applyPostfix( process, 'pfMuonsFromVertex'    , postfix ).d0Cut    = pfD0Cut
   applyPostfix( process, 'pfMuonsFromVertex'    , postfix ).dzCut    = pfDzCut
