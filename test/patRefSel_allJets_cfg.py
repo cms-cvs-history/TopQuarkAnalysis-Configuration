@@ -34,6 +34,9 @@ process = cms.Process( 'PAT' )
 ### Data or MC?
 runOnMC = options.runOnMC
 
+### Input from produced with CMSSW_4_2_X?
+runOn42X = False
+
 ### Standard and PF reconstruction
 useStandardPAT = True
 runPF2PAT      = True
@@ -242,6 +245,8 @@ process.out.SelectEvents.SelectEvents = []
 
 ### Event cleaning
 process.load( 'TopQuarkAnalysis.Configuration.patRefSel_eventCleaning_cff' )
+if runOnMC:
+  process.eventCleaning += process.totalKinematicsFilter
 
 ### Trigger selection
 if runOnMC:
@@ -546,6 +551,8 @@ if useStandardPAT:
 
   ### Electrons
 
+  if runOn42X:
+    process.patElectrons.pfElectronSource  = 'particleFlow'
   process.selectedPatElectrons.cut = electronCut
 
 if runPF2PAT:
@@ -608,8 +615,7 @@ if runPF2PAT:
 # The paths
 if useStandardPAT:
   process.p = cms.Path()
-  if not runOnMC:
-    process.p += process.eventCleaning
+  process.p += process.eventCleaning
   if useTrigger:
     process.p += process.step1
   process.p += process.goodOfflinePrimaryVertices
@@ -627,8 +633,7 @@ if useStandardPAT:
 
 if runPF2PAT:
   pPF = cms.Path()
-  if not runOnMC:
-    pPF += process.eventCleaning
+  pPF += process.eventCleaning
   if useTrigger:
     pPF += process.step1
   pPF += process.goodOfflinePrimaryVertices
